@@ -29,6 +29,13 @@ target_link_libraries(dnsbenchmark_lib
         Threads::Threads
 )
 
+if(WIN32)
+    target_link_libraries(dnsbenchmark_lib
+        PUBLIC
+            ws2_32
+    )
+endif()
+
 add_executable(dnsbenchmark
     src/main.cpp
 )
