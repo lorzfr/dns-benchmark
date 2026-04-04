@@ -35,6 +35,40 @@ For each resolver, the benchmark:
 - Ubuntu/Debian x64 is the primary target for v1
 - Network access to the DNS servers you want to test
 
+## Quick Install Scripts
+
+### Debian / Ubuntu
+
+Use the automated installer to install dependencies, build the native CLI, and install it to `/usr/local`:
+
+```bash
+./install-debian.sh
+```
+
+Optional install prefix:
+
+```bash
+INSTALL_PREFIX=/opt/dnsbenchmark ./install-debian.sh
+```
+
+### Windows PowerShell
+
+Use the installer to copy `dnsbenchmark.ps1` and a `dnsbenchmark.cmd` launcher into your user profile:
+
+```powershell
+.\install-windows.ps1
+```
+
+To also add the install folder to your user `PATH`:
+
+```powershell
+.\install-windows.ps1 -AddToUserPath
+```
+
+Default install directory:
+
+- `$env:LOCALAPPDATA\dnsbenchmark`
+
 ## Project Files
 
 - Windows script: `.\dnsbenchmark.ps1`
