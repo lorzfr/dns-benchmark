@@ -1,14 +1,17 @@
 # DNS Benchmark
 
-Small PowerShell DNS benchmark that sends raw UDP DNS queries, measures latency, and compares resolver reliability.
+DNS benchmark project with:
 
-This script is entirely vibe-coded with Anthropic Claude Sonnet 4.6 and OpenAI GPT-5.4.
+- a PowerShell implementation for Windows in `dnsbenchmark.ps1`
+- a native C++17 Linux CLI built as `dnsbenchmark`
+
+This project is entirely vibe-coded with Anthropic Claude Sonnet 4.6 and OpenAI GPT-5.4.
 
 ## What It Does
 
-`dnsbenchmark.ps1` tests one or more DNS resolvers against a fixed list of common domains.
+Both implementations test one or more DNS resolvers against a fixed list of common domains.
 
-For each resolver, it:
+For each resolver, the benchmark:
 
 - sends direct UDP DNS A-record queries
 - measures response time in milliseconds
@@ -19,31 +22,100 @@ For each resolver, it:
 
 ## Requirements
 
+### Windows script
+
 - Windows PowerShell 5.1 or newer
 - Network access to the DNS servers you want to test
 - UDP access to port `53` or the custom DNS port you specify
 
-## Script File
+### Native Linux CLI
 
-- Main script: `.\dnsbenchmark.ps1`
+- CMake 3.16 or newer
+- A C++17 compiler
+- Ubuntu/Debian x64 is the primary target for v1
+- Network access to the DNS servers you want to test
+
+## Project Files
+
+- Windows script: `.\dnsbenchmark.ps1`
+- Native build entrypoint: `.\CMakeLists.txt`
+- Native headers: `.\include\dnsbenchmark\`
+- Native sources: `.\src\`
+- Native tests: `.\tests\`
 
 ## Syntax
 
-### PowerShell-style syntax
+### Native Linux CLI
+
+```bash
+./dnsbenchmark [--servers <server...>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv]
+```
+
+The native CLI also accepts PowerShell-style compatibility aliases:
+
+```bash
+./dnsbenchmark [-Servers <server...>] [-Rounds <int>] [-TimeoutMs <int>] [-ExportCsv]
+```
+
+For a single custom resolver, you can also use:
+
+```bash
+./dnsbenchmark --server 192.168.178.201
+```
+
+### PowerShell script
 
 ```powershell
 .\dnsbenchmark.ps1 [-Servers <string[]>] [-Rounds <int>] [-TimeoutMs <int>] [-ExportCsv]
 ```
 
-### GNU-style compatibility syntax
+### GNU-style compatibility syntax for the PowerShell script
 
 ```powershell
 .\dnsbenchmark.ps1 [--servers <server...>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv]
 ```
 
+## Build On Linux
+
+```bash
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
+Built executable:
+
+```bash
+./build/dnsbenchmark
+```
+
+## Build A Debian Package
+
+After configuring and building on Ubuntu/Debian:
+
+```bash
+cmake -S . -B build
+cmake --build build
+cmake --build build --target package_deb
+```
+
+Alternative:
+
+```bash
+cpack --config build/CPackConfig.cmake -G DEB
+```
+
+The generated `.deb` file will be written into `./build/`.
+
+Install it with:
+
+```bash
+sudo apt install ./build/dnsbenchmark_<version>_<arch>.deb
+```
+
 ## Parameters
 
-### `-Servers`
+### `Servers`
 
 One or more DNS servers to test.
 
@@ -54,13 +126,13 @@ Accepted formats:
 
 Examples:
 
-- `"1.1.1.1"`
-- `"8.8.8.8"`
-- `"192.168.178.201:5335"`
+- `1.1.1.1`
+- `8.8.8.8`
+- `192.168.178.201:5335`
 
-If `-Servers` is omitted, the script uses its built-in public resolver list.
+If no servers are provided, the benchmark uses its built-in public resolver list.
 
-### `-Rounds`
+### `Rounds`
 
 How many benchmark passes to run for each server.
 
@@ -68,7 +140,7 @@ Default:
 
 - `3`
 
-### `-TimeoutMs`
+### `TimeoutMs`
 
 Per-query timeout in milliseconds.
 
@@ -76,9 +148,9 @@ Default:
 
 - `1500`
 
-### `-ExportCsv`
+### `ExportCsv`
 
-If present, the script writes all raw results to a CSV file in the same folder as the script.
+If present, the benchmark writes all raw results to a CSV file in the executable or script folder.
 
 Filename format:
 
@@ -86,37 +158,43 @@ Filename format:
 
 ## Examples
 
-### Use the built-in server list
+### Native Linux binary with built-in servers
+
+```bash
+./build/dnsbenchmark
+```
+
+### Native Linux binary with custom servers
+
+```bash
+./build/dnsbenchmark --servers 1.1.1.1 8.8.4.4 --rounds 5 --timeout 2000 --export-csv
+```
+
+### Native Linux binary with one custom server
+
+```bash
+./build/dnsbenchmark --server 192.168.178.201
+```
+
+### PowerShell script with built-in servers
 
 ```powershell
 .\dnsbenchmark.ps1
 ```
 
-### Test specific servers
+### PowerShell script with custom servers
 
 ```powershell
 .\dnsbenchmark.ps1 -Servers "1.1.1.1","8.8.4.4","8.8.8.8"
 ```
 
-### Test a custom DNS port
+### PowerShell script with a custom DNS port
 
 ```powershell
 .\dnsbenchmark.ps1 -Servers "192.168.178.201:5335","1.1.1.1"
 ```
 
-### Run more rounds with a longer timeout
-
-```powershell
-.\dnsbenchmark.ps1 -Rounds 5 -TimeoutMs 2000
-```
-
-### Export results to CSV
-
-```powershell
-.\dnsbenchmark.ps1 -ExportCsv
-```
-
-### GNU-style example
+### PowerShell script with GNU-style flags
 
 ```powershell
 .\dnsbenchmark.ps1 --servers "1.1.1.1","8.8.4.4" --rounds 5 --timeout 2000 --export-csv
@@ -139,7 +217,7 @@ The benchmark currently tests these domains:
 
 ## Built-In Resolver List
 
-If you do not pass `-Servers`, the script currently benchmarks these public resolvers:
+If you do not pass custom servers, the benchmark currently tests these public resolvers:
 
 - `8.8.8.8` as `Google Primary`
 - `8.8.4.4` as `Google Secondary`
@@ -151,20 +229,20 @@ If you do not pass `-Servers`, the script currently benchmarks these public reso
 - `208.67.220.220` as `OpenDNS Secondary`
 - `94.140.14.14` as `AdGuard`
 
-## How The Script Works
+## How It Works
 
-1. It builds the active DNS server list from either the built-in list or your `-Servers` / `--servers` input.
+1. It builds the active DNS server list from either the built-in list or your `Servers` input.
 2. For each round, it sends raw UDP DNS A-record queries to every server for every test domain.
-3. Each query is timed with a stopwatch.
+3. Each query is timed with a stopwatch or steady clock.
 4. A reply is accepted only if the response looks valid and matches the request transaction ID.
 5. Successful timings are stored; failures are counted as `FAIL`.
-6. After all rounds finish, the script calculates summary stats and ranks the servers by median latency.
+6. After all rounds finish, the benchmark calculates summary stats and ranks servers by median latency.
 7. It prints a round-by-round live view, a final results summary, a per-domain median breakdown, and the winning resolver.
 8. If CSV export is enabled, it writes all raw rows to a timestamped file.
 
 ## Output Sections
 
-When you run the script, you will see:
+When you run either implementation, you will see:
 
 - `DNS RESOLVER BENCHMARK`: start banner and current settings
 - `Round X / Y`: live progress for each round
@@ -174,10 +252,11 @@ When you run the script, you will see:
 
 ## Notes
 
-- The script uses raw UDP DNS queries, not `Resolve-DnsName` or `nslookup`.
+- Both implementations use raw UDP DNS queries, not `Resolve-DnsName` or `nslookup`.
 - Success rate is based on successful replies across all tested domains and rounds.
 - A lower median is generally the most useful value for comparing resolvers.
-- If script execution is blocked on your machine, you can launch it with:
+- The native Linux CLI is the future canonical implementation shape for cross-platform work.
+- If PowerShell script execution is blocked on your machine, you can launch it with:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\dnsbenchmark.ps1
