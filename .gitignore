@@ -1,0 +1,8 @@
+.vs/
+build/
+*.exe
+*.lib
+*.obj
+*.tlog
+*.recipe
+*.sqlite

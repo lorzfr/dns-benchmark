@@ -3,7 +3,7 @@
 DNS benchmark project with:
 
 - a PowerShell implementation for Windows in `dnsbenchmark.ps1`
-- a native C++17 CLI built as `dnsbenchmark` on Linux and `dnsbenchmark.exe` on Windows
+- a native C++17 Linux CLI built as `dnsbenchmark`
 
 This project is entirely vibe-coded with Anthropic Claude Sonnet 4.6 and OpenAI GPT-5.4.
 
@@ -28,7 +28,7 @@ For each resolver, the benchmark:
 - Network access to the DNS servers you want to test
 - UDP access to port `53` or the custom DNS port you specify
 
-### Native CLI (Linux/Windows)
+### Native Linux CLI
 
 - CMake 3.16 or newer
 - A C++17 compiler
@@ -75,7 +75,7 @@ For a single custom resolver, you can also use:
 .\dnsbenchmark.ps1 [--servers <server...>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv]
 ```
 
-## Build Native Binary On Linux
+## Build On Linux
 
 ```bash
 cmake -S . -B build
@@ -87,22 +87,6 @@ Built executable:
 
 ```bash
 ./build/dnsbenchmark
-```
-
-## Build Native Binary On Windows
-
-From "x64 Native Tools Command Prompt for VS" or PowerShell with MSVC in `PATH`:
-
-```powershell
-cmake -S . -B build -G "Visual Studio 17 2022" -A x64
-cmake --build build --config Release
-ctest --test-dir build -C Release --output-on-failure
-```
-
-Built executable:
-
-```powershell
-.\build\Release\dnsbenchmark.exe
 ```
 
 ## Build A Debian Package
