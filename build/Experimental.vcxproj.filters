@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\lorz\source\repos\dns-benchmark\build\CMakeFiles\c029fbb7f31c4069dd4c94700d3708be\Experimental.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\lorz\source\repos\dns-benchmark\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\lorz\source\repos\dns-benchmark\build\CMakeFiles\Experimental" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{7828F2E7-7658-342F-95AF-8D06E4404272}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

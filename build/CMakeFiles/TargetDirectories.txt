@@ -1,0 +1,12 @@
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/Experimental.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/Nightly.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/Continuous.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/NightlyMemoryCheck.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/dnsbenchmark_lib.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/dnsbenchmark.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/dnsbenchmark_unit_tests.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/PACKAGE.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/RUN_TESTS.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/INSTALL.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/lorz/source/repos/dns-benchmark/build/CMakeFiles/ZERO_CHECK.dir

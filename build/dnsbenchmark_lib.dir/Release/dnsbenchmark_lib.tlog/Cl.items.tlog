@@ -1,0 +1,6 @@
+C:\Users\lorz\source\repos\dns-benchmark\src\benchmark.cpp;C:\Users\lorz\source\repos\dns-benchmark\build\dnsbenchmark_lib.dir\Release\benchmark.obj
+C:\Users\lorz\source\repos\dns-benchmark\src\cli.cpp;C:\Users\lorz\source\repos\dns-benchmark\build\dnsbenchmark_lib.dir\Release\cli.obj
+C:\Users\lorz\source\repos\dns-benchmark\src\constants.cpp;C:\Users\lorz\source\repos\dns-benchmark\build\dnsbenchmark_lib.dir\Release\constants.obj
+C:\Users\lorz\source\repos\dns-benchmark\src\dns_protocol.cpp;C:\Users\lorz\source\repos\dns-benchmark\build\dnsbenchmark_lib.dir\Release\dns_protocol.obj
+C:\Users\lorz\source\repos\dns-benchmark\src\output.cpp;C:\Users\lorz\source\repos\dns-benchmark\build\dnsbenchmark_lib.dir\Release\output.obj
+C:\Users\lorz\source\repos\dns-benchmark\src\transport_posix.cpp;C:\Users\lorz\source\repos\dns-benchmark\build\dnsbenchmark_lib.dir\Release\transport_posix.obj
