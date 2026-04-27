@@ -35,64 +35,39 @@ For each resolver, the benchmark:
 - Ubuntu/Debian x64 is the primary target for v1
 - Network access to the DNS servers you want to test
 
-## One-Line Install (Ollama-style)
+## Quick Install Scripts
 
 ### Debian / Ubuntu
 
-Install with:
+Use the automated installer to install dependencies, build the native CLI, and install it to `/usr/local`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lorz/dns-benchmark/main/install.sh | sh
+./install-debian.sh
 ```
 
-This installer will:
-
-- install dependencies (`build-essential`, `cmake`, `git`, `ninja-build`)
-- clone the repository
-- build the native CLI
-- install `dnsbenchmark` to `/usr/local` (or your custom prefix)
-
-Optional custom install prefix:
+Optional install prefix:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/lorz/dns-benchmark/main/install.sh | INSTALL_PREFIX=/opt/dnsbenchmark sh
+INSTALL_PREFIX=/opt/dnsbenchmark ./install-debian.sh
 ```
 
 ### Windows PowerShell
 
-Install with:
+Use the installer to copy `dnsbenchmark.ps1` and a `dnsbenchmark.cmd` launcher into your user profile:
 
 ```powershell
-irm https://raw.githubusercontent.com/lorz/dns-benchmark/main/install.ps1 | iex
+.\install-windows.ps1
 ```
 
-This installer will:
-
-- download source
-- copy `dnsbenchmark.ps1`
-- create a `dnsbenchmark.cmd` launcher in your install folder
-
-To add the install folder to your user `PATH`:
+To also add the install folder to your user `PATH`:
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/lorz/dns-benchmark/main/install.ps1))) -AddToUserPath
+.\install-windows.ps1 -AddToUserPath
 ```
 
 Default install directory:
 
 - `$env:LOCALAPPDATA\dnsbenchmark`
-
-## Local Install Scripts
-
-If you already cloned this repository, you can also run:
-
-```bash
-./install.sh
-```
-
-```powershell
-.\install.ps1
-```
 
 ## Project Files
 
