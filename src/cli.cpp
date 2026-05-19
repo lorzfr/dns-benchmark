@@ -60,6 +60,7 @@ bool is_known_flag_token(const std::string& token) {
            token == "--exportcsv" ||
            token == "--export" ||
            token == "--tui" ||
+           token == "--cli" ||
            starts_with(token, "--server=") ||
            starts_with(token, "--servers=") ||
            starts_with(token, "--rounds=") ||
@@ -175,6 +176,13 @@ BenchmarkOptions parse_arguments(int argc, char* argv[]) {
 
         if (token == "--tui") {
             options.use_tui = true;
+            options.force_tui = true;
+            continue;
+        }
+
+        if (token == "--cli") {
+            options.use_tui = false;
+            options.force_tui = false;
             continue;
         }
 
@@ -192,8 +200,8 @@ std::string build_help_text(const std::string& executable_name) {
         << "DNS Benchmark\n"
         << "\n"
         << "Usage:\n"
-        << "  " << exe << " [--server <server>] [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--timeout-ms <ms>] [--export-csv] [--tui]\n"
-        << "  " << exe << " [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--export-csv] [--tui]\n"
+        << "  " << exe << " [--server <server>] [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--timeout-ms <ms>] [--export-csv] [--tui] [--cli]\n"
+        << "  " << exe << " [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--export-csv] [--tui] [--cli]\n"
         << "\n"
         << "Servers accept either IP or IP:Port.\n"
         << "\n"
@@ -202,6 +210,7 @@ std::string build_help_text(const std::string& executable_name) {
         << "  " << exe << " --server 192.168.178.201\n"
         << "  " << exe << " --servers 1.1.1.1 8.8.4.4 --rounds 5 --timeout 2000 --export-csv\n"
         << "  " << exe << " --tui\n"
+        << "  " << exe << " --cli --servers 1.1.1.1 8.8.8.8\n"
         << "  " << exe << " -Servers 1.1.1.1 8.8.8.8 -Rounds 5 -TimeoutMs 2000 -ExportCsv\n";
 
     return help.str();
