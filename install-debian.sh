@@ -39,6 +39,9 @@ echo "[4/5] Installing binary to ${INSTALL_PREFIX}..."
 ${SUDO} cmake --install "${BUILD_DIR}" --prefix "${INSTALL_PREFIX}"
 
 echo "[5/5] Building .deb package..."
-cmake --build "${BUILD_DIR}" --target package_deb --config Release
+(
+  cd "${BUILD_DIR}"
+  cpack -G DEB --config "${BUILD_DIR}/CPackConfig.cmake"
+)
 
 echo "Done. Run: dnsbenchmark --help"
