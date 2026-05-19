@@ -35,13 +35,13 @@ cmake -S "${SCRIPT_DIR}" -B "${BUILD_DIR}" -G Ninja -DCMAKE_BUILD_TYPE=Release
 echo "[3/5] Building dnsbenchmark..."
 cmake --build "${BUILD_DIR}" --config Release
 
-echo "[4/5] Installing binary to ${INSTALL_PREFIX}..."
-${SUDO} cmake --install "${BUILD_DIR}" --prefix "${INSTALL_PREFIX}"
-
-echo "[5/5] Building .deb package..."
+echo "[4/5] Building .deb package..."
 (
   cd "${BUILD_DIR}"
   cpack -G DEB --config "${BUILD_DIR}/CPackConfig.cmake"
 )
+
+echo "[5/5] Installing binary to ${INSTALL_PREFIX}..."
+${SUDO} cmake --install "${BUILD_DIR}" --prefix "${INSTALL_PREFIX}"
 
 echo "Done. Run: dnsbenchmark --help"
