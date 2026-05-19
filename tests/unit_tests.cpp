@@ -68,18 +68,9 @@ void test_parse_arguments_single_server_alias() {
     ASSERT_EQ(1200, options.timeout_ms);
 }
 
-void test_parse_arguments_powershell_aliases() {
-    const auto options = parse_args({
-        "-Servers", "1.1.1.1", "8.8.8.8",
-        "-Rounds", "4",
-        "-TimeoutMs", "1750",
-        "-ExportCsv",
-    });
-
-    ASSERT_EQ(2U, options.server_inputs.size());
-    ASSERT_EQ(4, options.rounds);
-    ASSERT_EQ(1750, options.timeout_ms);
-    ASSERT_TRUE(options.export_csv);
+void test_parse_arguments_tui_flag() {
+    const auto options = parse_args({"--tui"});
+    ASSERT_TRUE(options.use_tui);
 }
 
 void test_dns_response_validation() {
@@ -133,7 +124,7 @@ int main() {
         run_test("parse_server_entry_custom_port", test_parse_server_entry_custom_port);
         run_test("parse_arguments_gnu_style", test_parse_arguments_gnu_style);
         run_test("parse_arguments_single_server_alias", test_parse_arguments_single_server_alias);
-        run_test("parse_arguments_powershell_aliases", test_parse_arguments_powershell_aliases);
+        run_test("parse_arguments_tui_flag", test_parse_arguments_tui_flag);
         run_test("dns_response_validation", test_dns_response_validation);
         run_test("calculate_stats_even_and_odd", test_calculate_stats_even_and_odd);
         run_test("calculate_stats_empty", test_calculate_stats_empty);

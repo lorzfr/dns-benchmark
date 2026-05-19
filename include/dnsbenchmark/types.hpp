@@ -20,6 +20,7 @@ struct BenchmarkOptions {
     int timeout_ms = 1500;
     bool export_csv = false;
     bool show_help = false;
+    bool use_tui = false;
 };
 
 struct Stats {

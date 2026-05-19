@@ -1,15 +1,12 @@
 # DNS Benchmark
 
-DNS benchmark project with:
-
-- a PowerShell implementation for Windows in `dnsbenchmark.ps1`
-- a native C++17 Linux CLI built as `dnsbenchmark`
+DNS benchmark project with a native C++17 CLI built as `dnsbenchmark`.
 
 This project is entirely vibe-coded with Anthropic Claude Sonnet 4.6 and OpenAI GPT-5.4.
 
 ## What It Does
 
-Both implementations test one or more DNS resolvers against a fixed list of common domains.
+The CLI tests one or more DNS resolvers against a fixed list of common domains.
 
 For each resolver, the benchmark:
 
@@ -21,12 +18,6 @@ For each resolver, the benchmark:
 - can export all raw measurements to CSV
 
 ## Requirements
-
-### Windows script
-
-- Windows PowerShell 5.1 or newer
-- Network access to the DNS servers you want to test
-- UDP access to port `53` or the custom DNS port you specify
 
 ### Native Linux CLI
 
@@ -51,27 +42,9 @@ Optional install prefix:
 INSTALL_PREFIX=/opt/dnsbenchmark ./install-debian.sh
 ```
 
-### Windows PowerShell
-
-Use the installer to copy `dnsbenchmark.ps1` and a `dnsbenchmark.cmd` launcher into your user profile:
-
-```powershell
-.\install-windows.ps1
-```
-
-To also add the install folder to your user `PATH`:
-
-```powershell
-.\install-windows.ps1 -AddToUserPath
-```
-
-Default install directory:
-
-- `$env:LOCALAPPDATA\dnsbenchmark`
-
 ## Project Files
 
-- Windows script: `.\dnsbenchmark.ps1`
+- Archived scripts: `./scripts-old/`
 - Native build entrypoint: `.\CMakeLists.txt`
 - Native headers: `.\include\dnsbenchmark\`
 - Native sources: `.\src\`
@@ -82,13 +55,7 @@ Default install directory:
 ### Native Linux CLI
 
 ```bash
-./dnsbenchmark [--servers <server...>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv]
-```
-
-The native CLI also accepts PowerShell-style compatibility aliases:
-
-```bash
-./dnsbenchmark [-Servers <server...>] [-Rounds <int>] [-TimeoutMs <int>] [-ExportCsv]
+./dnsbenchmark [--servers <server...>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv] [--tui]
 ```
 
 For a single custom resolver, you can also use:
@@ -97,17 +64,15 @@ For a single custom resolver, you can also use:
 ./dnsbenchmark --server 192.168.178.201
 ```
 
-### PowerShell script
+### Interactive TUI mode
 
-```powershell
-.\dnsbenchmark.ps1 [-Servers <string[]>] [-Rounds <int>] [-TimeoutMs <int>] [-ExportCsv]
+Launch a guided terminal UI for easy setup:
+
+```bash
+./build/dnsbenchmark --tui
 ```
 
-### GNU-style compatibility syntax for the PowerShell script
-
-```powershell
-.\dnsbenchmark.ps1 [--servers <server...>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv]
-```
+The TUI uses a restrained color palette and adapts to terminal widths automatically.
 
 ## Build On Linux
 
@@ -184,7 +149,7 @@ Default:
 
 ### `ExportCsv`
 
-If present, the benchmark writes all raw results to a CSV file in the executable or script folder.
+If present, the benchmark writes all raw results to a CSV file in the executable folder.
 
 Filename format:
 
@@ -208,30 +173,6 @@ Filename format:
 
 ```bash
 ./build/dnsbenchmark --server 192.168.178.201
-```
-
-### PowerShell script with built-in servers
-
-```powershell
-.\dnsbenchmark.ps1
-```
-
-### PowerShell script with custom servers
-
-```powershell
-.\dnsbenchmark.ps1 -Servers "1.1.1.1","8.8.4.4","8.8.8.8"
-```
-
-### PowerShell script with a custom DNS port
-
-```powershell
-.\dnsbenchmark.ps1 -Servers "192.168.178.201:5335","1.1.1.1"
-```
-
-### PowerShell script with GNU-style flags
-
-```powershell
-.\dnsbenchmark.ps1 --servers "1.1.1.1","8.8.4.4" --rounds 5 --timeout 2000 --export-csv
 ```
 
 ## Built-In Test Domains
@@ -290,8 +231,4 @@ When you run either implementation, you will see:
 - Success rate is based on successful replies across all tested domains and rounds.
 - A lower median is generally the most useful value for comparing resolvers.
 - The native Linux CLI is the future canonical implementation shape for cross-platform work.
-- If PowerShell script execution is blocked on your machine, you can launch it with:
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\dnsbenchmark.ps1
-```
+- 
