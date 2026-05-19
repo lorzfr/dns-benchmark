@@ -3,16 +3,23 @@
 #include "dnsbenchmark/constants.hpp"
 #include "dnsbenchmark/output.hpp"
 #include "dnsbenchmark/transport.hpp"
+#include "dnsbenchmark/tui.hpp"
 
 #include <iostream>
 #include <stdexcept>
 
 int main(int argc, char* argv[]) {
     try {
-        const auto options = dnsbenchmark::parse_arguments(argc, argv);
+        auto options = dnsbenchmark::parse_arguments(argc, argv);
         if (options.show_help) {
             std::cout << dnsbenchmark::build_help_text(argc > 0 ? argv[0] : "dnsbenchmark");
             return 0;
+        }
+
+        if (options.use_tui) {
+            if (!dnsbenchmark::stdin_is_tty() || !dnsbenchmark::launch_tui(options)) {
+                throw std::runtime_error("TUI mode requires an interactive terminal.");
+            }
         }
 
         const auto servers = dnsbenchmark::resolve_servers(options.server_inputs);

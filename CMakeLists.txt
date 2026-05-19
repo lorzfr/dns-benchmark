@@ -17,6 +17,7 @@ add_library(dnsbenchmark_lib
     src/dns_protocol.cpp
     src/output.cpp
     src/transport_posix.cpp
+    src/tui.cpp
 )
 
 target_include_directories(dnsbenchmark_lib

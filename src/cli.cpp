@@ -52,18 +52,14 @@ bool is_known_flag_token(const std::string& token) {
     return token == "--help" ||
            token == "-h" ||
            token == "--server" ||
-           token == "-server" ||
            token == "--servers" ||
-           token == "-Servers" ||
            token == "--rounds" ||
-           token == "-Rounds" ||
            token == "--timeout" ||
            token == "--timeout-ms" ||
-           token == "-TimeoutMs" ||
            token == "--export-csv" ||
            token == "--exportcsv" ||
            token == "--export" ||
-           token == "-ExportCsv" ||
+           token == "--tui" ||
            starts_with(token, "--server=") ||
            starts_with(token, "--servers=") ||
            starts_with(token, "--rounds=") ||
@@ -102,7 +98,7 @@ BenchmarkOptions parse_arguments(int argc, char* argv[]) {
             continue;
         }
 
-        if (token == "--server" || token == "-server") {
+        if (token == "--server") {
             if (index + 1 >= argc || is_known_flag_token(argv[index + 1])) {
                 throw std::runtime_error("The --server flag requires an IP or IP:Port value.");
             }
@@ -119,7 +115,7 @@ BenchmarkOptions parse_arguments(int argc, char* argv[]) {
             continue;
         }
 
-        if (token == "--servers" || token == "-Servers") {
+        if (token == "--servers") {
             const auto start_count = options.server_inputs.size();
 
             while (index + 1 < argc && !is_known_flag_token(argv[index + 1])) {
@@ -141,7 +137,7 @@ BenchmarkOptions parse_arguments(int argc, char* argv[]) {
             continue;
         }
 
-        if (token == "--rounds" || token == "-Rounds") {
+        if (token == "--rounds") {
             if (index + 1 >= argc) {
                 throw std::runtime_error("The --rounds flag requires an integer value.");
             }
@@ -154,7 +150,7 @@ BenchmarkOptions parse_arguments(int argc, char* argv[]) {
             continue;
         }
 
-        if (token == "--timeout" || token == "--timeout-ms" || token == "-TimeoutMs") {
+        if (token == "--timeout" || token == "--timeout-ms") {
             if (index + 1 >= argc) {
                 throw std::runtime_error("The --timeout flag requires an integer value in milliseconds.");
             }
@@ -172,8 +168,13 @@ BenchmarkOptions parse_arguments(int argc, char* argv[]) {
             continue;
         }
 
-        if (token == "--export-csv" || token == "--exportcsv" || token == "--export" || token == "-ExportCsv") {
+        if (token == "--export-csv" || token == "--exportcsv" || token == "--export") {
             options.export_csv = true;
+            continue;
+        }
+
+        if (token == "--tui") {
+            options.use_tui = true;
             continue;
         }
 
@@ -191,9 +192,8 @@ std::string build_help_text(const std::string& executable_name) {
         << "DNS Benchmark\n"
         << "\n"
         << "Usage:\n"
-        << "  " << exe << " [--server <server>] [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--timeout-ms <ms>] [--export-csv]\n"
-        << "  " << exe << " [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--export-csv]\n"
-        << "  " << exe << " [-Servers <server...>] [-Rounds <int>] [-TimeoutMs <ms>] [-ExportCsv]\n"
+        << "  " << exe << " [--server <server>] [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--timeout-ms <ms>] [--export-csv] [--tui]\n"
+        << "  " << exe << " [--servers <server...>] [--rounds <int>] [--timeout <ms>] [--export-csv] [--tui]\n"
         << "\n"
         << "Servers accept either IP or IP:Port.\n"
         << "\n"
@@ -201,6 +201,7 @@ std::string build_help_text(const std::string& executable_name) {
         << "  " << exe << "\n"
         << "  " << exe << " --server 192.168.178.201\n"
         << "  " << exe << " --servers 1.1.1.1 8.8.4.4 --rounds 5 --timeout 2000 --export-csv\n"
+        << "  " << exe << " --tui\n"
         << "  " << exe << " -Servers 1.1.1.1 8.8.8.8 -Rounds 5 -TimeoutMs 2000 -ExportCsv\n";
 
     return help.str();
