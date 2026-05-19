@@ -17,7 +17,11 @@ int main(int argc, char* argv[]) {
         }
 
         if (options.use_tui) {
-            if (!dnsbenchmark::stdin_is_tty() || !dnsbenchmark::launch_tui(options)) {
+            if (dnsbenchmark::stdin_is_tty() && dnsbenchmark::launch_tui(options)) {
+                return 0;
+            }
+
+            if (options.force_tui) {
                 throw std::runtime_error("TUI mode requires an interactive terminal.");
             }
         }

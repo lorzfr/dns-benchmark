@@ -51,7 +51,7 @@ Run:
 ## CLI usage
 
 ```bash
-./build/dnsbenchmark [--servers <server...>] [--server <server>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv] [--tui]
+./build/dnsbenchmark [--servers <server...>] [--server <server>] [--rounds <int>] [--timeout <int>] [--timeout-ms <int>] [--export-csv] [--tui] [--cli]
 ```
 
 Examples:
@@ -62,10 +62,16 @@ Examples:
 ./build/dnsbenchmark --server 192.168.178.201
 ```
 
-## TUI mode
+## TUI mode (default on interactive terminals)
 
 ```bash
 ./build/dnsbenchmark --tui
+```
+
+Use `--cli` to force the legacy non-TUI output mode:
+
+```bash
+./build/dnsbenchmark --cli
 ```
 
 ## Parameters
@@ -75,6 +81,8 @@ Examples:
 - `--rounds`: benchmark passes per resolver (default: `3`)
 - `--timeout` / `--timeout-ms`: per-query timeout in ms (default: `1500`)
 - `--export-csv`: write timestamped CSV output
+- `--cli`: force legacy CLI mode (disable TUI)
+- `--tui`: force TUI mode (fails if no interactive terminal)
 
 CSV format:
 
