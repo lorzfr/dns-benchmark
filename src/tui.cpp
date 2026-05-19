@@ -60,14 +60,20 @@ std::string trim(std::string v) {
 
 std::vector<std::string> parse_servers(const std::string& raw) {
     std::vector<std::string> out;
-    std::size_t start = 0;
-    while (start <= raw.size()) {
-        auto comma = raw.find(',', start);
-        auto part = trim(raw.substr(start, comma == std::string::npos ? std::string::npos : comma - start));
-        if (!part.empty()) out.push_back(part);
-        if (comma == std::string::npos) break;
-        start = comma + 1;
+    std::string current;
+    for (char c : raw) {
+        if (c == ',' || std::isspace(static_cast<unsigned char>(c)) != 0) {
+            auto part = trim(current);
+            if (!part.empty()) out.push_back(part);
+            current.clear();
+            continue;
+        }
+        current.push_back(c);
     }
+
+    auto part = trim(current);
+    if (!part.empty()) out.push_back(part);
+
     return out;
 }
 
@@ -103,7 +109,7 @@ bool launch_tui(BenchmarkOptions& options) {
     print_header(use_color);
 
     std::string line;
-    std::cout << paint("Servers (comma-separated IP or IP:Port, blank = built-in list): ", Color::Accent, use_color);
+    std::cout << paint("Servers (comma/space-separated IP or IP:Port, blank = built-in list): ", Color::Accent, use_color);
     if (!std::getline(std::cin, line)) return false;
     options.server_inputs = parse_servers(line);
 

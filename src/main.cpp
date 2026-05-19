@@ -17,8 +17,10 @@ int main(int argc, char* argv[]) {
         }
 
         if (options.use_tui) {
-            if (dnsbenchmark::stdin_is_tty() && dnsbenchmark::launch_tui(options)) {
-                return 0;
+            if (dnsbenchmark::stdin_is_tty()) {
+                if (!dnsbenchmark::launch_tui(options)) {
+                    return 1;
+                }
             }
 
             if (options.force_tui) {
